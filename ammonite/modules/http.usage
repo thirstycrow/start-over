@@ -1,0 +1,35 @@
+import scalaj.http._
+
+GET:
+Http("http://foo.com/search").param("q","monkeys").asString
+
+POST:
+Http("http://foo.com/add").postForm(Seq("name" -> "jon", "age" -> "29")).asString
+
+Parsing the response:
+Http("http://foo.com").{asString, asBytes, asParams}
+
+Https:
+Http("https://localhost/").option(HttpOptions.allowUnsafeSSL).asString
+
+Set timeouts:
+Http(url).timeout(connTimeoutMs = 1000, readTimeoutMs = 5000).asString
+
+Via proxy:
+Http(url).proxy(proxyHost, proxyPort).asString
+
+Change the charset:
+Http(url).charset("ISO-8859-1").asString
+
+Create custom HttpRequest builder:
+object MyHttp extends BaseHttp (
+  proxyConfig: Option[Proxy] = None,
+  options: Seq[HttpOptions.HttpOption] = HttpConstants.defaultOptions,
+  charset: String = HttpConstants.utf8,
+  sendBufferSize: Int = 4096,
+  userAgent: String = "scalaj-http/1.0",
+  compress: Boolean = true
+)
+
+See more:
+https://git.io/vD8uA

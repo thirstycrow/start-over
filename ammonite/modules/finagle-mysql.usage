@@ -1,0 +1,10 @@
+import com.twitter.finagle.Mysql
+import com.twitter.finagle.mysql
+
+val service = {
+  Mysql.client.withCredentials("user", "password")
+    .withDatabase("mysql")
+    .newService("localhost:3306")
+}
+
+service.query("show tables").print()
